@@ -17,6 +17,7 @@ export class TooltipService {
       instance = tippy(document.body, {
         content: "",
         trigger: "manual",
+        allowHTML: true,
         delay: 0,
         duration: [80, 80],
         placement: "top",

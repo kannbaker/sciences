@@ -12,6 +12,7 @@ export interface ChartDefinition {
   xLabel?: string;
   xUnit?: string;
   normalized?: boolean;
+  showAtomicNumber?: boolean;
   unit: string;
   color: string;
   description: string;
@@ -86,15 +87,40 @@ export class ChartWidget implements Widget {
   private formatTooltip(element: ElementRecord): string {
     const value = element[this.definition.property];
     const valueText = value === null ? "no data" : `${this.formatValue(this.definition.property, value)}${this.definition.unit}`;
-    const valenceConfiguration = element.electronConfiguration.replace(/^\[[^\]]+\]\s*/, "");
-    const lines = [`Z: ${element.atomicNumber} · ${element.name} [${element.symbol}]`, `Period: ${element.period} · valence: ${valenceConfiguration}`];
-    if (this.definition.xProperty) lines.push(`${this.definition.xLabel ?? this.getPropertyLabel(this.definition.xProperty)}: ${this.formatValue(this.definition.xProperty, element[this.definition.xProperty])}${this.definition.xUnit ?? ""}`);
-    lines.push(`${this.definition.label ?? this.getPropertyLabel(this.definition.property)}: ${valueText}`);
+    const elementName = this.escapeHtml(element.name);
+    const elementSymbol = this.escapeHtml(element.symbol);
+    const identity = this.definition.showAtomicNumber === false
+      ? `[${elementSymbol}] ${elementName}`
+      : `${element.atomicNumber}.[${elementSymbol}] ${elementName}`;
+    const lines = [identity, this.formatElectronConfiguration(element.electronConfiguration), ""];
+    if (this.definition.xProperty) {
+      const xLabel = this.definition.xLabel ?? this.getPropertyLabel(this.definition.xProperty);
+      const xValue = `${this.formatValue(this.definition.xProperty, element[this.definition.xProperty])}${this.definition.xUnit ?? ""}`;
+      lines.push(`${xLabel}: <strong>${xValue}</strong>`);
+    }
+    lines.push(`${this.definition.label ?? this.getPropertyLabel(this.definition.property)}: <strong>${valueText}</strong>`);
     return lines.join("\n");
   }
 
+  private formatElectronConfiguration(configuration: string): string {
+    return this.escapeHtml(configuration)
+      .replace(/\s+/g, " ")
+      .replace(/\]\s+/g, "]")
+      .replace(/(\d[spdf])(\d+)/g, "$1<sup>$2</sup>")
+      .replace(/<\/sup> (?=\d[spdf])/g, "</sup>");
+  }
+
+  private escapeHtml(value: string): string {
+    return value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   private getPropertyLabel(property: PropertyKey): string {
-    return { atomicRadius: "Atomic radius", ionizationEnergy: "Ionization energy", electronegativity: "Electronegativity", electronAffinity: "Electron affinity" }[property];
+    return { atomicRadius: "AR", ionizationEnergy: "FIE", electronegativity: "EN", electronAffinity: "EA" }[property];
   }
 
   private formatValue(property: PropertyKey, value: number | null): string {
