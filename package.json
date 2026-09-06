@@ -1,0 +1,26 @@
+{
+  "name": "sciences",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "rspack build --mode production",
+    "dev": "rspack serve --mode development"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "inversify": "^7.5.4",
+    "periodic-table-data": "^1.1.1",
+    "reflect-metadata": "^0.2.2",
+    "tippy.js": "^6.3.7"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^1.6.4",
+    "@rspack/core": "^1.6.4",
+    "@types/d3": "^7.4.3",
+    "@types/node": "^24.3.0",
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2"
+  }
+}

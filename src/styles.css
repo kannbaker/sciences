@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap');
+
+:root { color: #19324a; background: #f3f0e9; font-family: Manrope, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.page-shell { width: min(100% - 32px, 1728px); margin: 0 auto; }
+.page-header { border-left: 4px solid #e76f51; padding-left: 22px; margin-bottom: 34px; }
+.page-nav { display: flex; gap: 18px; margin-bottom: 28px; }
+.page-nav a { color: #71808a; font: 500 11px 'DM Mono', monospace; text-decoration: none; text-transform: uppercase; letter-spacing: .06em; }
+.page-nav a:hover { color: #19324a; text-decoration: underline; text-underline-offset: 4px; }
+.eyebrow, footer { color: #6c7c87; font: 500 11px 'DM Mono', monospace; letter-spacing: .12em; }
+h1 { margin: 6px 0 10px; font-size: clamp(28px, 4vw, 50px); line-height: .98; letter-spacing: -.055em; }
+.intro { margin: 0; color: #607080; font-size: 15px; }
+.chart-stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(280px, calc(50vh - 150px)); gap: 18px; }
+.chart-card { height: 100%; min-height: 0; }
+.page-shell:has(.chart-stack[aria-label="Property correlation charts"]) .chart-stack { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.page-shell:has(.chart-stack[aria-label="Property correlation charts"]) .chart-card { padding: 8px; }
+.chart-card { min-height: 0; padding: 14px 16px 10px; background: #fffdf8; border: 1px solid #e3ded4; border-radius: 5px; box-shadow: 5px 5px 0 #e5ded2; overflow: hidden; }
+.chart-card svg { display: block; width: 100%; height: auto; }
+.chart-title { fill: #19324a; font-size: 14px; font-weight: 800; }
+.chart-description { fill: #82909a; font: 10px 'DM Mono', monospace; }
+.axis text { fill: #71808a; font: 10px 'DM Mono', monospace; }
+.axis path, .axis line { stroke: #cbd0cf; }
+.grid path, .grid .tick line { stroke: #e8e9e5; stroke-dasharray: 2 3; }
+.grid .domain { display: none; }
+.point { stroke: #fffdf8; stroke-width: 1.5; transition: r .15s; }
+.point:hover { r: 7; }
+.point.is-active { r: 8; stroke: #19324a; stroke-width: 2.5; }
+.legend text { fill: #71808a; font: 9px 'DM Mono', monospace; }
+.tippy-box[data-theme~='chem'] { background: #19324a; color: #fffdf8; border: 1px solid #e9c46a; border-radius: 4px; box-shadow: 3px 3px 0 rgba(25, 50, 74, .16); font: 600 11px 'DM Mono', monospace; padding: 3px 5px; }
+.tippy-box[data-theme~='chem'] .tippy-content { white-space: pre-line; }
+.tippy-box[data-theme~='chem'] > .tippy-arrow { color: #19324a; }
+footer { margin-top: 30px; letter-spacing: 0; }
+@media (max-width: 540px) { .page-shell { width: min(100% - 20px, 980px); padding-top: 34px; } .chart-card { padding-inline: 5px; } }
+@media (max-width: 1000px) { .chart-stack, .page-shell:has(.chart-stack[aria-label="Property correlation charts"]) .chart-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .chart-stack, .page-shell:has(.chart-stack[aria-label="Property correlation charts"]) .chart-stack { grid-template-columns: 1fr; } }
